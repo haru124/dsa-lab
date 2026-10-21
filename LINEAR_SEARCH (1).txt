@@ -1,0 +1,76 @@
+#include<iostream>
+#include<stdlib.h>
+using namespace std;
+class List
+{
+	int a[10];
+	int maxSize;
+	int size;
+	public:
+	List()
+	{
+		maxSize=10;
+		size=0;
+	}
+	void getList();
+	void printList();
+	int  linearSearch(int);
+};
+void List::getList()
+{
+	int n;
+	cout<<"\nEnter n:";
+	cin>>n;
+	if(n>maxSize)
+	{
+		cout<<"\nMax size="<<maxSize;
+		exit(0);
+	}
+	else
+	{
+		cout<<"\nEnter array elements:";
+		int i;
+		for(i=0;i<n;i++)
+			cin>>a[i];
+		size=n;
+	}
+}
+void List::printList()
+{
+	for(int i=0;i<size;i++)
+		cout<<a[i]<<" ";
+}
+int List::linearSearch(int e)
+{
+	int fl=0,pos;
+	for(int i=0;i<size;i++)
+	{
+		if(e==a[i])
+		{
+			fl=1;
+			pos=i;
+			break;
+		}
+	}
+	if(fl>0)
+		return(pos);
+	else
+		return(-1);
+}
+
+int main()
+{
+	List l;
+	int e,pos;
+	l.getList();
+	cout<<"\nArray Elements are:";
+	l.printList();
+    cout<<"\nEnter the element to be searched:";
+    cin>>e;
+    pos=l.linearSearch(e);
+    if(pos>=0)
+		cout<<"\nElement found in position:"<<pos+1;
+	else
+		cout<<"\nElement not found";
+}
+

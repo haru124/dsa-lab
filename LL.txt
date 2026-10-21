@@ -1,0 +1,212 @@
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+
+    Node()
+    {
+        data = 0;
+        next = NULL;
+    }
+    Node(int data)
+    {
+        this->data = data;
+        this->next = NULL;
+    }
+};
+  
+class Linkedlist {
+    Node* head;
+  
+public:
+    Linkedlist() { 
+       head = NULL; 
+    }
+    
+    void insertatend(int);
+    void insertatfront(int);
+    void printList();
+    void deleteNode(int);
+    void inputlist(int);
+    void search(int);
+    void insert(int,int);
+    ~Linkedlist()
+	{
+	    Node *temp;
+		while(head!=NULL)
+        {
+            temp=head;
+            head=head->next;
+            delete temp;
+        }
+	}
+};
+  
+
+void Linkedlist::inputlist(int size)
+{
+    int n;
+    cin>>n;
+    head = new Node(n);
+    Node *temp = head;
+
+    for (int i=1; i<size ; i++)
+    {
+    cin>>n;
+    Node *newNode = new Node(n);
+    temp->next = newNode;
+    temp = temp->next;
+    }
+    printList();
+}
+
+
+
+void Linkedlist::search(int data)
+{
+    Node *temp1 = head;
+    int pos = 1,flag=0;
+  
+    if (head == NULL) {
+        cout << "List empty." << endl;
+        return;
+    }
+
+    while (temp1 != NULL) {
+        if(temp1->data == data)
+        {
+            flag=1;
+            cout<<"Item "<<data<<" Found in position:"<<pos<<endl;
+            break;
+        }
+        pos++;
+        temp1 = temp1->next;
+    }
+    if (flag==0){
+        cout<<"Item not found in list"<<endl;
+    }
+}
+
+void Linkedlist::deleteNode(int data)
+{
+    Node *temp1 = head, *temp2 = NULL;
+    int deleted =0;
+  
+    if (head == NULL) {
+        cout << "List empty." << endl;
+        return;
+    }
+    
+    if(head->data == data)
+    {
+        head = head->next;
+        delete temp1;
+        deleted = 1;
+    }
+    while (temp1 != NULL) {
+        temp2 = temp1;
+        temp1 = temp1->next;
+        if(temp1->data == data)
+        {
+            temp2->next = temp1->next;
+            delete temp1;
+            deleted = 1; 
+            //cout<<"\nElement "<<data<<" deleted from linked list";
+            break;
+        }
+    }
+    
+    if (deleted ==0)
+    {
+        cout<<"\nElement to be deleted-"<<data<<" not found in list";
+    }
+
+}
+
+void Linkedlist::insertatend(int data)
+{
+    Node* newNode = new Node(data);
+
+    if (head == NULL) {
+        head = newNode;
+        return;
+    }
+
+    Node* temp = head;
+    while (temp->next != NULL) {
+        temp = temp->next;
+    }
+    temp->next = newNode;
+    printList();
+}
+
+void Linkedlist::insert(int data, int pos)
+{
+    Node* newNode = new Node(data);
+
+    if (head == NULL) {
+        cout<<"\nList empty, inserting element at position 1(head) by default";
+        head = newNode;
+        return;
+    }
+    int count=1;
+
+    Node* temp = head;
+    while (count<pos-1) {
+        temp = temp->next;
+        count++;
+    }
+    newNode->next = temp->next;
+    temp->next = newNode;
+    printList();
+}
+
+void Linkedlist::insertatfront(int data)
+{
+    Node* newNode = new Node(data);
+
+    if (head == NULL) {
+        head = newNode;
+        return;
+    }
+
+    newNode->next = head;
+    head = newNode;
+printList();
+}
+
+void Linkedlist::printList()
+{
+    Node* temp = head;
+    if (head == NULL) {
+        cout << "List empty" << endl;
+        return;
+    }
+
+    while (temp != NULL) {
+        cout << temp->data << " ";
+        temp = temp->next;
+    }
+    cout<<endl;
+}
+
+int main()
+{
+    Linkedlist l1;
+    l1.inputlist(7);
+
+    l1.insertatend(11);
+    l1.deleteNode(11);
+
+    l1.insertatfront(12);
+    l1.insert(14,4);
+    //l1.printList();
+    //cout << endl;
+    l1.search(10);
+    l1.deleteNode(9);
+    l1.printList();
+    return 0;
+}

@@ -1,0 +1,98 @@
+//Insert at the front
+//Delete at the front
+#include<iostream>
+using namespace std;
+#include<stdlib.h>
+class Node
+{
+	public:
+	int data;
+	Node *next;
+};
+class LISTSTACK
+{
+	Node *top;
+	public:
+	LISTSTACK()
+	{
+		top=NULL;
+	}
+	void push(int);
+	void pop();
+	void display();
+};
+void LISTSTACK::push(int data)
+{
+	Node *nn=new Node();
+	nn->data=data;
+	if(top==NULL)
+	{
+		top=nn;
+		nn->next=NULL;
+	}
+	else
+	{
+		nn->next=top;
+		top=nn;
+	}
+}
+void  LISTSTACK::pop()
+{
+	if(top==NULL)
+		cout<<"\nStack Empty";
+	else
+	{
+		cout<<"\nDeleted Item:"<<top->data;
+		Node *t;
+		t=top;
+		top=top->next;
+		free(t);
+	}
+}
+void LISTSTACK::display()
+{
+	if(top==NULL)
+		cout<<"\nList Empty";
+	else
+	{
+		Node *t=new Node();
+		t=top;
+		while(t!=NULL)
+		{
+			cout<<t->data<<" ";
+			t=t->next;
+		}
+	}
+}
+
+int main()
+{
+	LISTSTACK s;
+	char c;
+	do
+	{
+		cout<<"\n1.PUSH";
+		cout<<"\n2.POP";
+		cout<<"\n3.Display";
+		int ch;
+		cout<<"\nEnter your choice:";
+		cin>>ch;
+		switch(ch)
+		{
+			case 1:cout<<"\nEnter the data to be inserted:";
+				int data;
+				cin>>data;
+				s.push(data);
+				break;
+			case 2:s.pop();
+				break;
+			case 3:cout<<"\nStack elements are:\n";
+				s.display();
+				break;
+			default:cout<<"\nWrong choice";
+		}
+		cout<<"\nDo you want to continue?(y/n)";
+		cin>>c;
+	}while(c=='y');
+}
+

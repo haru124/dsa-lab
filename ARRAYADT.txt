@@ -1,0 +1,245 @@
+#include<iostream>
+#include<stdlib.h>
+using namespace std;
+class Array
+{
+	int a[10];
+	int maxSize;
+	int size;
+	public:
+	Array()
+	{
+		maxSize=10;
+		size=0;
+	}
+	void readArray();
+	void displayArray();
+	void traverseBack();
+	void insert(int,int);
+	void Delete(int);
+	int  search(int);
+	void sort();
+	void reverse();
+	void merge(Array,Array);
+};
+void Array::readArray()
+{
+	int n;
+	cout<<"\nEnter n:";
+	cin>>n;
+	if(n>maxSize)
+	{
+		cout<<"\nMax size="<<maxSize;
+		exit(0);
+	}
+	else
+	{
+		cout<<"\nEnter array elements:";
+		int i;
+		for(i=0;i<n;i++)
+			cin>>a[i];
+		size=n;
+	}
+}
+void Array::displayArray()
+{
+	cout<<"\nsize="<<size;
+	cout<<"\nmaxsize="<<maxSize;
+	cout<<"\nArray Elements are:";
+	for(int i=0;i<size;i++)
+		cout<<a[i]<<" ";
+}
+void Array::traverseBack()
+{
+	cout<<"\nArray Elements are:";
+	for(int i=size-1;i>=0;i--)
+		cout<<a[i]<<" ";
+}
+void Array::insert(int e,int loc)
+{
+    int i;
+    if(size>=maxSize)
+        cout<<"Max size attained cannot insert new element";
+    else
+    {
+        for(i=size-1;i>=loc-1;i--)
+            a[i+1]=a[i];
+        a[loc-1]=e;
+        size=size+1;
+    }
+}
+void Array::Delete(int loc)
+{
+	for(int i=loc;i<size;i++)
+	{
+		a[i-1]=a[i];
+	}
+	size=size-1;
+}
+int Array::search(int e)
+{
+	int fl=0,pos;
+	for(int i=0;i<size;i++)
+	{
+		if(e==a[i])
+		{
+			fl=1;
+			pos=i;
+		}
+	}
+	if(fl>0)
+		return(pos);
+	else
+		return(-1);
+}
+void Array::sort()
+{
+    int i,j,t;
+    for(i=0;i<size-1;i++)
+    {
+        for(j=i+1;j<size;j++)
+        {
+            if(a[i]>a[j])
+            {
+                t=a[i];
+                a[i]=a[j];
+                a[j]=t;
+            }
+        }
+
+    }
+}
+void Array::reverse()
+{
+    int i,t,n=size;
+    for(i=0;i<size/2;)
+    {
+        t=a[i];
+        a[i]=a[n-1];
+        a[n-1]=t;
+        i++;
+        n--;
+    }
+}
+void Array::merge(Array P,Array Q)
+{
+    size=P.size+Q.size;
+    int i=0;
+    int j=0;
+    int k=0;
+    while(i<=P.size-1 && j<=Q.size-1)
+    {
+
+        if(P.a[i]<=Q.a[j])
+        {
+            a[k]=P.a[i];
+            i++;
+            k++;
+        }
+        else
+        {
+            a[k]=Q.a[j];
+            j++;
+            k++;
+        }
+    }
+    while(i<=P.size-1)
+    {
+        a[k]=P.a[i];
+        i++;
+        k++;
+    }
+     while( j<=Q.size-1)
+     {
+          a[k]=Q.a[j];
+            j++;
+            k++;
+
+     }
+
+}
+int main()
+{
+	Array x;
+	Array p,q,r;
+	char c;
+	int loc,pos;
+	do
+	{
+		cout<<"\n1.Read array";
+		cout<<"\n2.display array";
+		cout<<"\n3.traverse back";
+		cout<<"\n4.Insert";
+		cout<<"\n5.Delete";
+		cout<<"\n6.search";
+		cout<<"\n7.sort";
+		cout<<"\n8.Reverse";
+		cout<<"\n9.Merge";
+		int ch;
+		cout<<"\nEnter your choice:";
+		cin>>ch;
+		switch(ch)
+		{
+			case 1:x.readArray();
+				break;
+			case 2:x.displayArray();
+				break;
+			case 3:x.traverseBack();
+				break;
+			case 4:cout<<"\nEnter location:";
+				cin>>loc;
+				cout<<"\nEnter element:";
+				int e;
+				cin>>e;
+				x.insert(e,loc);
+				break;
+			case 5:cout<<"\nEnter the location:";
+				cin>>loc;
+				x.Delete(loc);
+				break;
+			case 6:cout<<"\nEnter the element to be searced:";
+				cin>>e;
+                pos=x.search(e);
+				if(pos>=0)
+					cout<<"\nElement found in position:"<<pos+1;
+				else
+					cout<<"\nElement not found";
+				break;
+            case 7:cout<<"\nOriginal Array:";
+                x.displayArray();
+                x.sort();
+                cout<<"\nSorted Array:";
+                x.displayArray();
+                break;
+            case 8:cout<<"\nOriginal Array:";
+                x.displayArray();
+                x.reverse();
+                cout<<"\nSorted Array:";x.displayArray();
+                break;
+            case 9:cout<<"\nEnter First Array:";
+                    p.readArray();
+                    cout<<"\nEnter second array:";
+                    q.readArray();
+                    cout<<"\nOriginal Array 1:";
+                    p.displayArray();
+                    cout<<"\nOriginal Array 2:";
+                    q.displayArray();
+                    cout<<"\nAfter Sorting:";
+                    p.sort();
+                    q.sort();
+                    cout<<"\nArray 1:";
+                    p.displayArray();
+                    cout<<"\nArray 2:";
+                    q.displayArray();
+                    r.merge(p,q);
+                    cout<<"\nMerged Array:";
+                    r.displayArray();
+                    break;
+			default:cout<<"\nWrong choice";
+
+		}
+		cout<<"\nDo you want to continue?(y/n)";
+		cin>>c;
+	}while(c=='y');
+}
+

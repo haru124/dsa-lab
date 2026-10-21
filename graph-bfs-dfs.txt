@@ -1,0 +1,96 @@
+#include <iostream>
+#include <queue>
+#include <stack>
+
+using namespace std;
+
+void performBFS(int** adjacencyMatrix, int vertices, int startVertex) {
+    bool* visited = new bool[vertices];
+    for (int i = 0; i < vertices; i++) {
+        visited[i] = false;
+    }
+
+    queue<int> bfsQueue;
+    bfsQueue.push(startVertex);
+    visited[startVertex] = true;
+
+    while (!bfsQueue.empty()) {
+        int currentVertex = bfsQueue.front();
+        bfsQueue.pop();
+        cout << currentVertex + 1;
+
+        for (int i = 0; i < vertices; i++) {
+            if (adjacencyMatrix[currentVertex][i] == 1 && !visited[i]) {
+                bfsQueue.push(i);
+                visited[i] = true;
+            }
+        }
+        
+        if (!bfsQueue.empty()) {
+            cout << "->";
+        }
+    }
+
+    delete[] visited;
+}
+
+void performDFS(int** adjacencyMatrix, int vertices, int startVertex) {
+    bool* visited = new bool[vertices];
+    for (int i = 0; i < vertices; i++) {
+        visited[i] = false;
+    }
+
+    stack<int> dfsStack;
+    dfsStack.push(startVertex);
+    visited[startVertex] = true;
+
+    while (!dfsStack.empty()) {
+        int currentVertex = dfsStack.top();
+        dfsStack.pop();
+        cout << currentVertex + 1;
+
+        for (int i = 0; i < vertices; i++) {
+            if (adjacencyMatrix[currentVertex][i] == 1 && !visited[i]) {
+                dfsStack.push(i);
+                visited[i] = true;
+            }
+        }
+        
+        if (!dfsStack.empty()) {
+            cout << "->";
+        }
+    }
+
+    delete[] visited;
+}
+
+int main() {
+    int vertices;
+    //cout << "Enter the number of vertices: ";
+    cin >> vertices;
+
+    int** adjacencyMatrix = new int*[vertices];
+    for (int i = 0; i < vertices; i++) {
+        adjacencyMatrix[i] = new int[vertices];
+        for (int j = 0; j < vertices; j++) {
+            cin >> adjacencyMatrix[i][j];
+        }
+    }
+
+    int startVertex = 1;
+    //cout << "Enter the starting vertex: ";
+    //cin >> startVertex;
+
+    //cout << "BFS Order: ";
+    performBFS(adjacencyMatrix, vertices, startVertex - 1);
+    cout << endl;
+
+    //cout << "DFS Order: ";
+    performDFS(adjacencyMatrix, vertices, startVertex - 1);
+    cout << endl;
+
+    for (int i = 0; i < vertices; i++) {
+        delete[] adjacencyMatrix[i];
+    }
+    delete[] adjacencyMatrix;
+}

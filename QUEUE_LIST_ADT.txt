@@ -1,0 +1,105 @@
+//queue -->linked list implementation
+//insert at back
+//delete at front
+#include<iostream>
+#include<stdlib.h>
+using namespace std;
+class Node
+{
+	public:
+	int data;
+	Node *next;
+};
+class listQueue
+{
+	Node *front;
+	Node *rear;
+
+	public:
+	listQueue()
+	{
+		front=NULL;
+		rear=NULL;
+	}
+	void Enque(int);
+	void Deque();
+	void Display();
+};
+void listQueue::Enque(int x)
+{
+	Node *tmp=new Node();
+	tmp->data=x;
+	tmp->next=NULL;
+	if(front==NULL && rear == NULL)
+	{
+		front=tmp;
+		rear=tmp;
+	}
+	else
+	{
+		rear->next=tmp;
+		rear=tmp;
+	}
+}
+void listQueue::Deque()
+{
+	Node *tmp;
+	if(front==NULL)
+		cout<<"\nEmpty Queue";
+	else
+	{       tmp=front;
+		cout<<"\nDeleted element:"<<tmp->data;
+		front=front->next;
+		free(tmp);
+	}
+}
+
+void listQueue::Display()
+{
+	if(front==NULL && rear == NULL)
+	{
+		cout<<"\nEmpty queue...";
+	}
+	
+	else
+	{
+
+		Node *p;
+		p=front;
+		if(p==NULL)
+		  cout<<"All data deleted...";
+		else
+		{
+    		while(p!=NULL)
+    		{
+    			cout<<p->data<<" ";
+    			p=p->next;
+    		}
+	   }
+}
+}
+int main()
+{
+	int data,ch;char c;
+	listQueue q;
+	do
+	{
+	cout<<"\nMENU";
+	cout<<"\n1.INSERT";
+	cout<<"\n2.DELETE";
+	cout<<"\n3.DISPLAY";
+	cout<<"\nEnter ur choice:";
+	cin>>ch;
+	switch(ch)
+	{
+		case 1:cout<<"\nEnter element to be inserted:";
+			cin>>data;
+			q.Enque(data);
+			break;
+		case 2:q.Deque();break;
+		case 3:q.Display();break;
+	}
+	cout<<"\nDo u want to continue?(y/n)";
+	cin>>c;
+	}while(c=='y');
+}

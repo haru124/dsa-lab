@@ -1,0 +1,99 @@
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int coefficient;
+    int power;
+    Node* next;
+
+    Node(int coef, int pow) {
+        coefficient = coef;
+        power = pow;
+        next = nullptr;
+    }
+};
+
+class LinkedList {
+public:
+    Node* head;
+    LinkedList() {
+        head = nullptr;
+    }
+    LinkedList addPolynomials(LinkedList, LinkedList);
+    void insert(int coef, int pow) {
+        Node* newNode = new Node(coef, pow);
+        if (!head) {
+            head = newNode;
+        } else {
+            Node* current = head;
+            while (current->next) {
+                current = current->next;
+            }
+            current->next = newNode;
+        }
+    }
+
+    void display() {
+        Node* current = head;
+        while (current) {
+            cout << current->power << " " << current->coefficient << endl;
+            current = current->next;
+        }
+    }
+};
+
+LinkedList LinkedList::addPolynomials(LinkedList poly1, LinkedList poly2) {
+    LinkedList result;
+    Node* current1 = poly1.head;
+    Node* current2 = poly2.head;
+
+    while (current1 && current2) {
+        if (current1->power == current2->power) {
+            result.insert(current1->coefficient + current2->coefficient, current1->power);
+            current1 = current1->next;
+            current2 = current2->next;
+        } else if (current1->power > current2->power) {
+            result.insert(current1->coefficient, current1->power);
+            current1 = current1->next;
+        } else {
+            result.insert(current2->coefficient, current2->power);
+            current2 = current2->next;
+        }
+    }
+
+    while (current1) {
+        result.insert(current1->coefficient, current1->power);
+        current1 = current1->next;
+    }
+
+    while (current2) {
+        result.insert(current2->coefficient, current2->power);
+        current2 = current2->next;
+    }
+
+    return result;
+}
+
+int main() {
+    LinkedList poly1, poly2, result;
+
+    int n1, n2, coef, pow;
+    cin >> n1;
+    
+    for (int i = 0; i < n1; ++i) {
+        cin >> pow >> coef;
+        poly1.insert(coef, pow);
+    }
+
+    cin >> n2;
+    for (int i = 0; i < n2; ++i) {
+        cin >> pow >> coef;
+        poly2.insert(coef, pow);
+    }
+
+    result = result.addPolynomials(poly1, poly2);
+    result.display();
+
+    return 0;
+}

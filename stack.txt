@@ -1,0 +1,99 @@
+#include<iostream>
+using namespace std;
+#define MAXSIZE 5
+class STACK
+{
+	int stack[MAXSIZE];
+	int top;
+	public:
+	STACK()
+	{
+		top=-1;
+	}
+	void push(int);
+	void pop();
+	void display();
+	int isEmpty();
+	int isFull();
+};
+
+int STACK::isEmpty()
+{
+	if(top<0)
+		return(1);
+	else
+		return(0);
+}
+int STACK::isFull()
+{
+	if(top==MAXSIZE-1)
+		return(1);
+	else
+		return(0);
+}
+
+void STACK::display()
+{
+	if(isEmpty()==1)
+		cout<<"\nStack empty";
+	else
+	{
+	    cout<<endl;
+		for(int i=0;i<=top;i++)
+		{
+			cout<<stack[i]<<" ";
+		}
+		if(isFull()==1)
+		{
+		    cout<<"\nStack full";
+		}
+	}
+	
+}
+
+void STACK::push(int data)
+{
+	if(isFull()!=1)
+	{
+		top=top+1;
+		stack[top]=data;
+		//cout<<"\nstack["<<top<<"] : "<<stack[top]<<endl;
+	}
+	else
+		cout<<"\nStack full";
+}
+void  STACK::pop()
+{
+	if(isEmpty()!=1)
+	{
+		//cout<<"\nDeleted Item:"<<stack[top];
+		top=top-1;
+        display();
+	}
+	else
+		cout<<"Stack empty";
+}
+int main()
+{
+	STACK s;  //book stack with book ids 
+	if(s.isEmpty()==1)
+	  cout<<"Stack empty";
+	else
+	 cout<<"Stack is not empty";
+	int n;
+	cin>>n;
+	//cout<<n<<endl;
+    int data;
+	for(int i=0;i<n;i++){
+	cin>>data;
+	s.push(data);
+	}
+	s.display();
+
+    while(!s.isEmpty())
+    {
+	s.pop();
+    }
+	//=s.currSize();
+	//cout<<"\nCurrent size="<<csize;
+}

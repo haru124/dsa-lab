@@ -1,0 +1,124 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+////////////////////////////////////////////////////////////
+// Method 1: Loop from j = 0 to n-1 for each bit          //
+////////////////////////////////////////////////////////////
+vector<vector<int>> generateAllSubsetsForLoop(const vector<int>& arr, int& totalIterations) {
+    int n = arr.size();
+    int totalMasks = 1 << n;
+    vector<vector<int>> result;
+    totalIterations = 0;
+
+    for (int mask = 0; mask < totalMasks; ++mask) {
+        vector<int> subset;
+        int iterations = 0;
+
+        for (int j = 0; j < n; ++j) {
+            iterations++;  // check every bit
+            if (mask & (1 << j)) {
+                subset.push_back(arr[j]);
+            }
+        }
+
+        result.push_back(subset);
+        totalIterations += iterations;
+    }
+
+    return result;
+}
+
+////////////////////////////////////////////////////////////
+// Method 2: Right shift mask bit-by-bit (m >>= 1)        //
+////////////////////////////////////////////////////////////
+vector<vector<int>> generateAllSubsetsRightShift(const vector<int>& arr, int& totalIterations) {
+    int n = arr.size();
+    int totalMasks = 1 << n;
+    vector<vector<int>> result;
+    totalIterations = 0;
+
+    for (int mask = 0; mask < totalMasks; ++mask) {
+        vector<int> subset;
+        int iterations = 0;
+
+        int j = 0;
+        for (int m = mask; m > 0; m >>= 1, ++j) {
+            iterations++;
+            if (m & 1) {
+                subset.push_back(arr[j]);
+            }
+        }
+
+        result.push_back(subset);
+        totalIterations += iterations;
+    }
+
+    return result;
+}
+
+////////////////////////////////////////////////////////////
+// Method 3: Bit trick using __builtin_ctz + m &= m-1     //
+////////////////////////////////////////////////////////////
+vector<vector<int>> generateAllSubsetsCTZ(const vector<int>& arr, int& totalIterations) {
+    int n = arr.size();
+    int totalMasks = 1 << n;
+    vector<vector<int>> result;
+    totalIterations = 0;
+
+    for (int mask = 0; mask < totalMasks; ++mask) {
+        vector<int> subset;
+        int iterations = 0;
+
+        int m = mask;
+        while (m) {
+            int bit = __builtin_ctz(m);   // Count trailing zeros
+            subset.push_back(arr[bit]);
+            m &= (m - 1);                 // Clear the lowest set bit
+            iterations++;
+        }
+
+        result.push_back(subset);
+        totalIterations += iterations;
+    }
+
+    return result;
+}
+
+////////////////////////////////////////////////////////////
+// Utility: Print all subsets from vector<vector<int>>    //
+////////////////////////////////////////////////////////////
+void printSubsets(const vector<vector<int>>& subsets, const string& title, int iterations) {
+    cout << "\n" << title << ":\n";
+    for (const auto& subset : subsets) {
+        cout << "{ ";
+        for (int x : subset) cout << x << " ";
+        cout << "}\n";
+    }
+    cout << "Total iterations: " << iterations << "\n";
+}
+
+////////////////////////////////////////////////////////////
+// 🧪 Main Function                                        //
+////////////////////////////////////////////////////////////
+int main() {
+    vector<int> arr = {10, 20, 30, 40, 50};
+
+    cout << "Input array: { ";
+    for (int x : arr) cout << x << " ";
+    cout << "}\n";
+
+    int iter1, iter2, iter3;
+
+    // Generate and store subsets
+    auto result1 = generateAllSubsetsForLoop(arr, iter1);
+    auto result2 = generateAllSubsetsRightShift(arr, iter2);
+    auto result3 = generateAllSubsetsCTZ(arr, iter3);
+
+    // Print results
+    printSubsets(result1, "Method 1: for-loop (j = 0 to n-1)", iter1);
+    printSubsets(result2, "Method 2: right shift (m >>= 1)", iter2);
+    printSubsets(result3, "Method 3: bit trick (__builtin_ctz)", iter3);
+
+    return 0;
+}

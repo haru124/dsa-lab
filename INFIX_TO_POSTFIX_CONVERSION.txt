@@ -1,0 +1,133 @@
+#include<iostream>
+using namespace std;
+#include<ctype.h>
+#include<string.h>
+#define ST_SIZE 20
+class Stack
+{
+	char stack[ST_SIZE];
+	int top;
+	public:
+	Stack()
+	{
+		top=-1;
+	}
+	void push(char);
+	char pop();
+	char getTop();
+	void display();
+	void infixToPostfix(char s[20]);
+	int prec(char c);
+
+};
+char Stack::getTop()
+{
+	char c;
+	c=stack[top];
+	return(c);
+
+}
+void Stack::display()
+{
+    int i;
+    for(i=top;i>=0;i--)
+        cout<<stack[i];
+}
+void Stack::push(char x)
+{
+	top=top+1;
+	stack[top]=x;
+
+}
+char Stack::pop()
+{
+	char val;
+	val=stack[top];
+	top=top-1;
+	return(val);
+}
+//FUNCTION TO ASSIGN PRECEDENCE FOR OPERATORS
+int Stack::prec(char c)
+{
+    if(c == '^')
+    return 3;
+    else if(c == '*' || c == '/'|| c == '%')
+    return 2;
+    else if(c == '+' || c == '-')
+    return 1;
+    else
+    return -1;
+}
+
+// FUNCTION TO CONVERT INFIX EXPRESSION TO POSTFIX EXPRESSION
+void Stack::infixToPostfix(char I[20])
+{
+    char c;int k=0;
+    push('('); //PUSH LEFT PARENTHESIS INTO STACK
+    int l = strlen(I);
+    char P[20];
+    cout<<"\nInfix expression:"<<I;
+     cout<<"\nLength:"<<l;
+    for(int i = 0; i < l; i++)
+    {
+
+       if((I[i] >= 'a' && I[i] <= 'z')||(I[i] >= 'A' && I[i] <= 'Z')) //IF THE SYMBOL SCANNED IS OPERAND --> APPEND TO P
+        {
+            P[k]=I[i];
+            k++;
+        }
+       else if(I[i] == '(') //IF THE SYMBOL SCANNED IS LEFT PARANTHESEIS --> PUSH TO STACK
+        push('(');
+       else if(I[i] == ')') //IF THE SYMBOL SCANNED RIGHT PARANTHESEIS -->POP FROM STACK AND APPEND TO P UNTIL LEFT PARANTHESIS IS ENCOUNTERED
+       {
+           while(getTop() != '(')
+            {
+                c = pop();
+               P[k]= c;
+               k++;
+            }
+            if(getTop() == '(')
+            {
+                c=pop();
+            }
+        }
+        else{  //IF THE SYMBOL SCANNED IS OPERATOR
+                c=getTop();
+            	while(c != '(' && ( prec(c)>=prec(I[i]))) //IF THE PRECEDENCE OF THE OPERATOR IN STACK IS GREATER THAN OR EQUAL TO SCANNED SYMBOL, POP AND APPEND TO P
+            	{
+                	c = pop();
+               		 P[k]=c;
+                	k++;
+                	c=getTop();
+            	}
+            	push(I[i]);//PUSH SCANNED OPERATOR INTO STACK
+
+         }
+          
+    }
+
+   P[k]='\0';
+    cout << "POSTFIX EXPRESSION:"<<P;
+
+
+}
+
+//Driver program to test above functions
+int main()
+{
+    Stack s;int l;
+	char iexp[20];
+	cout<<"\nStack Created";
+	cout<<"\nEnter a infix expression:";
+	cin>>iexp;
+	l=strlen(iexp);
+	cout<<"\nLength="<<l;
+	iexp[l]=')'; //ADD LEFT PARENTESIS TO GIVEN INFIX EXPRESSION I
+	iexp[l+1]='\0';
+	cout<<"\nInfix expression:"<<iexp;
+	s.infixToPostfix(iexp);
+
+}
+
+
+((6-7)*(2^2^3))+1

@@ -1,0 +1,96 @@
+#include<iostream>
+using namespace std;
+#define MAXSIZE 4
+class QUEUE
+{
+	int queue[MAXSIZE];
+	int front;
+	int rear;
+	public:
+	QUEUE()
+	{
+		front=-1;
+		rear=-1;
+	}
+	void enque(int);
+	void deque();
+	void display();
+
+};
+void QUEUE::enque(int data)
+{
+	if(rear>=MAXSIZE-1)
+		cout<<"Queue Overflow";
+	else if(front==-1 && rear==-1)//if first data inserted in queue
+	{
+		front=front+1;
+		rear=rear+1;
+		queue[rear]=data;
+	}
+	else
+	{
+		rear=rear+1;
+		queue[rear]=data;
+	}
+}
+void  QUEUE::deque()
+{
+	if(front==-1)
+		cout<<"\nEmpty Queue";
+	else if(front<=rear)
+	{
+		cout<<"\nDeleted data:"<<queue[front];
+		front=front+1;
+	}
+	else
+		cout<<"\nNo data in queue";
+
+}
+void QUEUE::display()
+{
+	if(front==-1 && rear==-1)
+		cout<<"\nQueue empty";
+    else if(front>rear)
+        cout<<"\nQueue empty";
+	else
+	{
+		int i;
+        cout<<"\nQueue elements are:\n";
+		for(i=front;i<=rear;i++)
+			cout<<queue[i]<<" ";
+	}
+
+}
+
+int main()
+{
+	QUEUE q;
+	char c;
+	do
+	{
+		cout<<"\n1.Enque";
+		cout<<"\n2.Deque";
+		cout<<"\n3.Display";
+		int ch;
+		cout<<"\nEnter your choice:";
+		cin>>ch;
+		switch(ch)
+		{
+			case 1:cout<<"\nEnter the data to be inserted:";
+				int data;
+				cin>>data;
+				q.enque(data);
+				break;
+			case 2:q.deque();
+				break;
+			case 3:
+				q.display();
+				break;
+
+			default:cout<<"\nWrong choice";
+		}
+		cout<<"\nDo you want to continue?(y/n)";
+		cin>>c;
+	}while(c=='y');
+}
+

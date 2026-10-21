@@ -1,0 +1,89 @@
+#include<iostream>
+using namespace std;
+#include<ctype.h>
+#define ST_SIZE 20
+class Stack
+{
+	int stack[ST_SIZE];
+	int top;
+	public:
+	Stack()
+	{
+		top=-1;
+	}
+	void push(int);
+	int pop();
+	int Exp_Evaluate(char pos[20],int val[20]);
+};
+void Stack::push(int x)
+{
+	top=top+1;
+	stack[top]=x;
+
+}
+int Stack::pop()
+{
+	int val;
+	val=stack[top];
+	top=top-1;
+	return(val);
+}
+int Stack::Exp_Evaluate(char pos_exp[20],int value[20])
+{
+	int i=0,op1,op2,res;
+	while(pos_exp[i]!='\0')
+	{
+		if(isalpha(pos_exp[i]))
+		{
+			push(value[i]);
+		}
+		else
+		{
+			op2=pop();
+			op1=pop();
+			switch(pos_exp[i])
+			{
+				case '+':res=op1+op2;
+					 push(res);
+					 break;
+				case '-':res=op1-op2;
+					 push(res);
+					 break;
+				case '*':res=op1*op2;
+					 push(res);
+					 break;
+				case '/':res=op1/op2;
+					 push(res);
+					 break;
+				case '^':res=op1^op2;
+					 push(res);
+					 break;
+			}
+		}
+		i++;
+	}
+	res=pop();
+	return(res);
+}
+int main()
+{
+	Stack s;
+	char pos_exp[20];int value[20];
+	cout<<"\nStack Created";
+	cout<<"\nEnter a postfix expression:";
+	cin>>pos_exp;
+	int i=0;
+	while(pos_exp[i]!='\0')
+	{
+		if(isalpha(pos_exp[i]))
+		{
+			cout<<"\nEnter value for "<<pos_exp[i]<<":";
+			cin>>value[i];
+		}
+		i++;
+	};
+	int val;
+	val=s.Exp_Evaluate(pos_exp,value);
+	cout<<"\nValue of given expression is:"<<val;
+
+}

@@ -1,0 +1,19 @@
+bool dfsCycleDirected(int node, vector<vector<int>>& adj, vector<int>& visited) {
+    visited[node] = 1; // 0 = unvisited, 1 = visiting, 2 = visited
+    for (int neigh : adj[node]) {
+        if (visited[neigh] == 1) return true; // back edge → cycle
+        if (visited[neigh] == 0 && dfsCycleDirected(neigh, adj, visited))
+            return true;
+    }
+    visited[node] = 2;
+    return false;
+}
+
+bool hasCycleDirected(int n, vector<vector<int>>& adj) {
+    vector<int> visited(n, 0);
+    for (int i = 0; i < n; i++) {
+        if (visited[i] == 0 && dfsCycleDirected(i, adj, visited))
+            return true;
+    }
+    return false;
+}

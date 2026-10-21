@@ -1,0 +1,79 @@
+🔹 BFS
+
+LeetCode 127 - Word Ladder (Classic shortest transformation using BFS)
+LeetCode 542 - 01 Matrix (Multi-source BFS problem)
+LeetCode 815 - Bus Routes (BFS on graph with bus routes instead of nodes)
+
+🔹 DFS
+
+LeetCode 200 - Number of Islands (DFS/BFS grid traversal)
+LeetCode 695 - Max Area of Island (DFS flood fill)
+LeetCode 329 - Longest Increasing Path in a Matrix (DFS + memoization)
+
+🔹 Union Find (Disjoint Set)
+
+LeetCode 721 - Accounts Merge (Union Find on emails/accounts)
+LeetCode 684 - Redundant Connection (Detect cycle in graph)
+LeetCode 1319 - Number of Operations to Make Network Connected
+
+🔹 Sliding Window
+
+LeetCode 3 - Longest Substring Without Repeating Characters
+LeetCode 76 - Minimum Window Substring (Hard, classic)
+LeetCode 239 - Sliding Window Maximum
+
+🔹 Backtracking
+
+LeetCode 46 - Permutations
+LeetCode 51 - N-Queens
+LeetCode 212 - Word Search II (Trie + backtracking)
+
+🔹 Dynamic Programming (DP)
+
+LeetCode 300 - Longest Increasing Subsequence
+LeetCode 72 - Edit Distance (Classic DP)
+LeetCode 123 - Best Time to Buy and Sell Stock III
+
+🔹 Topological Sort
+
+LeetCode 207 - Course Schedule (Detect cycle in DAG)
+LeetCode 210 - Course Schedule II (Return ordering)
+LeetCode 269 - Alien Dictionary (Hard, build graph from words)
+
+🔹 Dijkstra’s Algorithm
+
+LeetCode 743 - Network Delay Time
+LeetCode 787 - Cheapest Flights Within K Stops
+LeetCode 1631 - Path With Minimum Effort
+
+🔹 Top K Elements
+
+LeetCode 347 - Top K Frequent Elements
+LeetCode 692 - Top K Frequent Words
+LeetCode 973 - K Closest Points to Origin
+
+🔹 Heap
+
+LeetCode 295 - Find Median from Data Stream
+LeetCode 502 - IPO
+LeetCode 218 - The Skyline Problem
+
+🔹 Hash Map
+
+LeetCode 49 - Group Anagrams
+LeetCode 560 - Subarray Sum Equals K
+LeetCode 146 - LRU Cache
+
+give me 3 commonly asked (difficulty can be mid to high) coding interview questions on each of the topic- 
+BFS, 
+DFS, 
+Union Find, 
+Sliding window, 
+Backtracking, 
+Dynamic Programming, 
+Topological Sort, 
+Dijikstra, 
+Top K elements, 
+Heap, 
+Hash Map 
+You can refer leetcode to give me question number name

@@ -1,0 +1,19 @@
+Subarray Sum Equals K
+
+Count number of subarrays that sum to a target.
+
+from collections import defaultdict
+
+def subarray_sum(nums, k):
+    count = 0
+    prefix_sum = 0
+    freq = defaultdict(int)
+    freq[0] = 1
+    
+    for num in nums:
+        prefix_sum += num
+        count += freq[prefix_sum - k]
+        freq[prefix_sum] += 1
+    return count
+
+print(subarray_sum([1,1,1], 2))  # 2

@@ -1,0 +1,55 @@
+#include <iostream>
+
+int main() {
+    int n, t, minimum, maximum;
+    
+    // Input the size of the array
+    std::cout << "Enter the size of the array: ";
+    std::cin >> n;
+
+    int array[n];
+
+    // Input array elements
+    std::cout << "Enter array elements: ";
+    for (int i = 0; i < n; i++)
+        std::cin >> array[i];
+
+    // Initialize variables for minimum and maximum
+    if (n % 2 != 0) {
+        t = 1;
+        minimum = maximum = array[0];
+    } else {
+        t = 2;
+        if (array[0] > array[1]) {
+            maximum = array[0];
+            minimum = array[1];
+        } else {
+            maximum = array[1];
+            minimum = array[0];
+        }
+    }
+
+    // Iterate through the array in pairs and find minimum and maximum
+    for (int i = t; i < n; i += 2) {
+        int smaller, larger;
+
+        if (array[i] < array[i + 1]) {
+            smaller = array[i];
+            larger = array[i + 1];
+        } else {
+            smaller = array[i + 1];
+            larger = array[i];
+        }
+
+        // Update minimum and maximum
+        if (smaller < minimum)
+            minimum = smaller;
+        if (larger > maximum)
+            maximum = larger;
+    }
+
+    // Output the result
+    std::cout << "Minimum: " << minimum << " Maximum: " << maximum << std::endl;
+
+    return 0;
+}

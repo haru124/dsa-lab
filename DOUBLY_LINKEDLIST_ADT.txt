@@ -1,0 +1,373 @@
+#include<iostream>
+using namespace std;
+#include<stdlib.h>
+typedef struct Node
+{
+	int data;
+	Node *prev;
+	Node *next;
+};
+class DList
+{
+	Node *head;
+	public:
+	DList()
+	{
+		head=NULL;
+	}
+	void createList();
+	void insert_front();
+	void insert_back();
+	void insert_after();
+	void delete_front();
+	void delete_back();
+	void delete_node();
+	void traverse();
+	void search();
+	void update();
+	void reverse();
+	~DList()
+	{
+	    Node *temp;
+		while(head!=NULL)
+        {
+            temp=head;
+            head=head->next;
+            head->prev=NULL;
+            delete temp;
+        }
+	}
+};
+void DList::createList()
+{
+    char choice;
+   Node *newNode,*nn;
+   newNode=new Node;
+   cout<<"Enter data:";
+   cin>>newNode->data;
+   newNode->next=NULL;
+   newNode->prev=NULL;
+   if(head==NULL)
+	{
+		head=newNode;
+	}
+   while(1)
+   {
+      cout<<"\nDo you want to add some more nodes?(y/n)";
+      cin>>choice;
+       if(choice=='n')
+        break;
+       else
+       {
+            nn=new Node;
+            cout<<"Enter data:";
+            cin>>nn->data;
+            nn->next=NULL;
+            nn->prev=newNode;
+            newNode->next=nn;
+       }
+       newNode=nn;
+   }
+}
+void DList::insert_front()
+{
+	Node *nn=new Node();
+	cout<<"\nEnter data:";
+	cin>>nn->data;
+	nn->prev=NULL;
+	if(head==NULL)
+	{
+		head=nn;
+		nn->next=NULL;
+	}
+	else
+	{
+		nn->next=head;
+		head->prev=nn;
+		head=nn;
+	}
+}
+void DList::insert_back()
+{
+	Node *nn=new Node;
+	cout<<"\nEnter data:";
+	cin>>nn->data;
+	nn->next=NULL;
+	if(head==NULL)
+	{
+		nn->prev=NULL;
+		head=nn;
+	}
+	else
+	{
+		Node *t;
+		t=head;
+		while(t->next!=NULL)
+		{
+			t=t->next;
+		}
+		nn->prev=t;
+		t->next=nn;
+
+	}
+}
+void DList::insert_after()
+{
+	int nnum,i;
+	Node *nn=new Node();
+	cout<<"\nEnter data:";
+	cin>>nn->data;
+	cout<<"\nEnter node Number:";
+	cin>>nnum;
+	Node *t1,*t2;
+	t1=t2=head;
+	for(i=1;i<=nnum;i++)
+	{
+		t2=t1;
+		t1=t1->next;
+	}
+	cout<<"\nt1="<<t1;
+	cout<<"\nt2="<<t2;
+	if(t1==NULL && t2==NULL)
+	{
+		cout<<nnum<<" node doest not exist\n";
+	}
+	if(t1==NULL)//IF LAST NODE NUMBER IS ENTERED
+    	{
+       	 	nn->next=NULL;
+        	nn->prev=t2;
+        	t2->next=nn;
+
+    	}
+	else
+	{
+		nn->next=t1;
+		t1->prev=nn;
+		t2->next=nn;
+		nn->prev=t2;
+	}
+}
+void DList::delete_front()
+{
+	Node *t;
+	t=head;
+	if(t->next==NULL)
+	{
+		head=NULL;
+		free(t);
+	}
+	else
+	{
+		head=t->next;
+		head->prev=NULL;
+		free(t);
+	}
+}
+void DList::delete_back()
+{
+	Node *t1,*t2;
+	t1=t2=head;
+	while(t1->next!=NULL)
+	{
+		t2=t1;
+		t1=t1->next;
+	}
+	if(t1==head)//IF ONLY ONE NODE IS PRESENT
+	{
+		head=NULL;
+		free(t1);
+	}
+	else
+	{
+		t2->next=NULL;
+		free(t1);
+	}
+}
+void DList::delete_node()
+{
+	int nnum,i;
+	cout<<"\nEnter node number which you want to delete?";
+	cin>>nnum;
+	Node *t1,*t2;
+	t1=head;
+	if(nnum==1)//If first node is selected
+	{
+		head=t1->next;
+		head->prev=NULL;
+		free(t1);
+	}
+	else
+	{
+		for(i=1;i<nnum;i++)
+		{
+			t2=t1;
+			t1=t1->next;
+		}
+		if(t1->next==NULL) //if last node is selected
+        	{
+           		 t2->next=NULL;
+            		free(t1);
+        	}
+       		 else               //if nodes other than first and last node is selected
+        	{
+           		 t2->next=t1->next;
+           		 (t2->next)->prev=t2;
+            		free(t1);
+        	}
+
+	}
+
+}
+void DList::traverse()
+{
+	Node *t;
+	t=head;
+	if(t==NULL)
+		cout<<"\nList empty";
+	else
+	{       while(t!=NULL)
+            {
+                cout<<t->data<<" ";
+                t=t->next;
+            }
+	}
+}
+void DList::search()
+{
+    int data,fl=0,pos=0;
+    cout<<"Enter data need to be searched";
+    cin>>data;
+    Node *t;
+    t=head;
+    if(t==NULL)
+    {
+        cout<<"List is empty";
+    }
+    else
+        {
+            while(t!=NULL)
+            {
+                pos=pos+1;
+                if(t->data==data)
+                {
+                    fl=1;
+                    break;
+                }
+                else
+                {
+                    t=t->next;
+                }
+            }
+            if(fl==1)
+            cout<<"Search data found in the position"<<pos;
+            else
+            cout<<"Search data not found";
+        }
+}
+void DList::update()
+{
+    int pos,cp=0,fl=0;
+    cout<<"Enter the position of the node to be updated";
+    cin>>pos;
+    int data;
+    cout<<"Enter new data";
+    cin>>data;
+    Node *t=new Node();
+    t=head;
+    cp=1;
+    if(pos==1)
+    {
+        t->data=data;
+    }
+    else
+        {
+            while(t->next!=NULL)
+            {
+                t=t->next;
+                cp=cp+1;
+                if(cp==pos)
+                {
+                    t->data=data;
+                    cout<<"Data updated";
+                    fl=1;
+                    break;
+                }
+            }
+            if(fl==0)
+                cout<<"You have entered position greater then the available position";
+        }
+}
+void DList::reverse()
+{
+    Node *t=NULL,*currNode;
+    currNode=head;
+    if(head==NULL)
+        cout<<"List empty";
+    else
+        {
+            while(currNode!=NULL)
+            {
+                t=currNode->prev;
+                currNode->prev=currNode->next;
+                currNode->next=t;
+                currNode=currNode->prev;
+            }
+            head=t->prev;
+        }
+
+}
+int main()
+{
+
+	DList l;
+	char c;
+	do
+	{
+		cout<<"\nMenu:";
+		cout<<"\n1.Create a List";
+		cout<<"\n2.Insert in front";
+		cout<<"\n3.Insert in back";
+		cout<<"\n4.Insert After";
+		cout<<"\n5.Delete front";
+		cout<<"\n6.Delete back";
+		cout<<"\n7.Delete Node";
+		cout<<"\n8.Traverse the list";
+		cout<<"\n9.Search the list";
+        	cout<<"\n10.Update the list";
+        	cout<<"\n11.Reverse the list";
+		int ch;
+		cout<<"\nEnter your choice:";
+		cin>>ch;
+		switch(ch)
+		{
+		    case 1:l.createList();
+				break;
+			case 2:l.insert_front();
+				break;
+			case 3:l.insert_back();
+				break;
+			case 4:l.insert_after();
+				break;
+			case 5:l.delete_front();
+				break;
+			case 6:l.delete_back();
+				break;
+			case 7:l.delete_node();
+				break;
+			case 8:l.traverse();
+				break;
+            		case 9:l.search();
+				break;
+            		case 10:l.update();
+				break;
+            		case 11:l.reverse();
+				break;
+			default:cout<<"\nWrong choice";
+		}
+		cout<<"\nDo you want to continue?(y/n)";
+		cin>>c;
+	}while(c=='y');
+}
+
+
+

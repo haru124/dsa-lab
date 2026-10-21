@@ -1,0 +1,97 @@
+#include <iostream>
+
+using namespace std;
+
+class CircularQueue {
+private:
+    int front, rear, size;
+    int* queue;
+public:
+    CircularQueue(int maxSize) {
+        size = maxSize;
+        front = rear = -1;
+        queue = new int[size];
+    }
+
+    ~CircularQueue() {
+        delete[] queue;
+    }
+
+    bool isEmpty() {
+        return front == -1 && rear == -1;
+    }
+
+    bool isFull() {
+        return (rear + 1) % size == front;
+    }
+
+    void enqueue(int value) {
+        if (isFull()) {
+            cout << "Circular Queue full" << endl;
+            return;
+        }
+        if (isEmpty()) {
+            front = rear = 0;
+        } else {
+            rear = (rear + 1) % size;
+        }
+        queue[rear] = value;
+    }
+
+    void dequeue() {
+        
+        //cout << queue[front] << " ";
+        
+        if (front == rear) {
+            front = rear = -1;
+        } else {
+            front = (front + 1) % size;
+        }
+         
+    }
+
+    void display() {
+        if (isEmpty()) {
+            cout << "Circular Queue empty" << endl;
+            return;
+        }
+        int tempFront = front;
+        while (tempFront != rear) {
+            cout << queue[tempFront] << " ";
+            tempFront = (tempFront + 1) % size;
+        }
+        cout << queue[rear] << endl;
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+    CircularQueue cq(n);
+
+    cq.display();
+    
+    for (int i = 0; i < n; i++) {
+        int money;
+        cin >> money;
+        cq.enqueue(money);
+    }
+
+    cq.display();
+
+    if (cq.isFull()) {
+        cout << "Circular Queue full" << endl;
+    }
+
+   for (int i = 0; i <n; i++) {
+        
+        
+        cq.dequeue();
+    
+ 
+        cq.display();
+        
+    }
+
+    return 0;
+}

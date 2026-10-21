@@ -1,0 +1,297 @@
+#include<iostream>
+using namespace std;
+#include<stdlib.h>
+class Node
+{
+    public:
+	int data;
+	Node *next;
+};
+class List
+{
+	Node *head;
+	public:
+	List()
+	{
+		head=NULL;
+	}
+	void createList();
+	void insert_front();
+	void insert_back();
+	void insert_after();
+	void delete_front();
+	void delete_back();
+	void delete_node();
+	void traverse();
+	void search();
+	void update();
+	~List()
+	{
+	    Node *temp;
+		while(head!=NULL)
+        {
+            temp=head;
+            head=head->next;
+            delete temp;
+        }
+	}
+};
+void List::createList()
+{
+   char choice;
+   Node *newNode,*nn;
+   newNode=new Node;
+   cout<<"Enter data:";
+   cin>>newNode->data;
+   newNode->next=NULL;
+   if(head==NULL)
+	{
+		head=newNode;
+	}
+   while(1)
+   {
+      cout<<"\nDo you want to add some more nodes?(y/n)";
+      cin>>choice;
+       if(choice=='n')
+        break;
+       else
+       {
+            nn=new Node;
+            cout<<"Enter data:";
+            cin>>nn->data;
+            nn->next=NULL;
+            newNode->next=nn;
+       }
+       newNode=nn;
+   }
+}
+void List::insert_front()
+{
+	Node *nn=new Node();
+	cout<<"\nEnter data:";
+	cin>>nn->data;
+	if(head==NULL)
+	{
+		head=nn;
+		nn->next=NULL;
+	}
+	else
+    	{
+        	nn->next=head;
+        	head=nn;
+    	}
+}
+void List::insert_back()
+{
+    Node *nn=new Node;
+	cout<<"\nEnter data:";
+	cin>>nn->data;
+	nn->next=NULL;
+	if(head==NULL)
+    	{
+        	head=nn;
+	}
+	else
+	{
+	    Node *t;
+		t=head;
+		while(t->next!=NULL)
+		{
+			t=t->next;
+		}
+		t->next=nn;
+	}
+
+}
+void List::insert_after()
+{
+	int nnum,i;
+	Node *nn=new Node();
+	cout<<"\nEnter data:";
+	cin>>nn->data;
+	cout<<"\nEnter node Number:";
+	cin>>nnum;
+	Node *t;
+	t=head;
+	for(i=1;i<nnum;i++)
+	{
+		t=t->next;
+	}
+	nn->next=t->next;
+	t->next=nn;
+}
+void List::delete_front()
+{
+	Node *t;
+	t=head;
+	head=t->next;
+	free(t);
+}
+void List::delete_back()
+{
+	Node *t1,*t2;
+	t1=head;
+	while(t1->next!=NULL)
+	{
+		t2=t1;
+		t1=t1->next;
+	}
+	t2->next=NULL;
+	free(t1);
+}
+void List::delete_node()
+{
+	int nnum,i;
+	cout<<"\nEnter node number which you want to delete?";
+	cin>>nnum;
+	Node *t1,*t2;
+	t1=head;
+	if(t1==NULL)
+        cout<<"List empty";
+	else if(nnum==1)
+	{
+		head=t1->next;
+		free(t1);
+	}
+	else
+	{
+		for(i=1;i<nnum;i++)
+		{
+			t2=t1;
+			t1=t1->next;
+		}
+		t2->next=t1->next;
+		free(t1);
+	}
+}
+void List::traverse()
+{
+	Node *t;
+	t=head;
+	if(t==NULL)
+		cout<<"\nList empty";
+	else
+	{       while(t!=NULL)
+		{
+			cout<<t->data<<" ";
+			t=t->next;
+		}
+	}
+}
+void List::search()
+{
+    int data,fl=0,pos=0;
+    cout<<"Enter data need to be searched";
+    cin>>data;
+    Node *t;
+    t=head;
+    if(t==NULL)
+    {
+        cout<<"List is empty";
+    }
+    else
+        {
+            while(t!=NULL)
+            {
+                pos=pos+1;
+                if(t->data==data)
+                {
+                    fl=1;
+                    break;
+                }
+                else
+                {
+                    t=t->next;
+                }
+            }
+            if(fl==1)
+            cout<<"Search data found in the position"<<pos;
+            else
+            cout<<"Search data not found";
+        }
+}
+void List::update()
+{
+    int pos,cp=0,fl=0;
+    cout<<"Enter the position of the node to be updated";
+    cin>>pos;
+    int data;
+    cout<<"Enter new data";
+    cin>>data;
+    Node *t=new Node();
+    t=head;
+    cp=1;
+    if(pos==1)
+    {
+        t->data=data;
+    }
+    else
+        {
+            while(t->next!=NULL)
+            {
+                t=t->next;
+                cp=cp+1;
+                if(cp==pos)
+                {
+                    t->data=data;
+                    cout<<"Data updated";
+                    fl=1;
+                    break;
+                }
+            }
+            if(fl==0)
+                cout<<"You have entered position greater then the available position";
+        }
+}
+int main()
+{
+
+	List l;
+	char c;
+	do
+	{
+		cout<<"\nMenu:";
+		cout<<"\n1.Create List";
+		cout<<"\n2.Insert in front";
+		cout<<"\n3.Insert in back";
+		cout<<"\n4.Insert After";
+		cout<<"\n5.Delete front";
+		cout<<"\n6.Delete back";
+		cout<<"\n7.Delete Node";
+		cout<<"\n8.Traverse the list";
+		cout<<"\n9.Search the list";
+        cout<<"\n10.Update the list";
+		int ch;
+		cout<<"\nEnter your choice:";
+		cin>>ch;
+		switch(ch)
+		{
+		    case 1:l.createList();
+                    break;
+			case 2:l.insert_front();
+				break;
+			case 3:l.insert_back();
+				break;
+			case 4:l.insert_after();
+				break;
+			case 5:l.delete_front();
+				break;
+			case 6:l.delete_back();
+				break;
+			case 7:l.delete_node();
+				break;
+			case 8:l.traverse();
+				break;
+            case 9:l.search();
+				break;
+            case 10:l.update();
+				break;
+			default:cout<<"\nWrong choice";
+		}
+		cout<<"\nDo you want to continue?(y/n)";
+		cin>>c;
+	}while(c=='y');
+}
+
+
+

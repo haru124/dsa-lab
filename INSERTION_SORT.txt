@@ -1,0 +1,70 @@
+#include<iostream>
+#include<stdlib.h>
+using namespace std;
+
+class List
+{
+	int a[10];
+	int maxSize,size;
+	public:
+	List()
+	{
+		maxSize=10;
+		size=0;
+	}
+	void getList();
+	void printList();
+	void insertionsort();
+};
+void List::getList()
+{
+    int n;
+	cout<<"\nEnter n:";
+	cin>>n;
+	if(n>maxSize)
+	{
+		cout<<"\nMax size="<<maxSize;
+		exit(0);
+	}
+	else
+	{
+		cout<<"\nEnter array elements:";
+		int i;
+		for(i=0;i<n;i++)
+			cin>>a[i];
+		size=n;
+	}
+}
+void List::printList()
+{
+	for(int i=0;i<size;i++)
+	{
+		cout<<a[i]<<" ";
+	}
+}
+void List::insertionsort()
+{
+    int x,i,j;
+    i=1;
+    for(i=1;i<size;i++)
+	{
+		x=a[i];
+		j=i-1;
+		while(j>=0 && a[j]>x)
+		{
+			a[j+1]=a[j];
+			j--;
+        }
+		a[j+1]=x;
+    }
+}
+int main()
+{
+	List l;
+	l.getList();
+	cout<<"\nGiven elements:\n";
+	l.printList();
+	l.insertionsort();
+	cout<<"\nAfter sorting:";
+	l.printList();
+}

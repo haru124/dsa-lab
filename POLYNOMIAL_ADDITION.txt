@@ -1,0 +1,164 @@
+#include<iostream>
+#include<stdlib.h>
+
+using namespace std;
+class Node
+{
+	public:
+	int coeff;
+	int expo;
+	Node *next;
+};
+class Poly
+{
+	Node *POLY;
+	public:
+	Poly()
+	{
+		POLY=NULL;
+	}
+	void createPoly();
+	void displayPoly();
+	void addPoly(Poly &,Poly &);
+};
+void Poly::createPoly()
+{
+    char choice;
+   Node *newNode,*nn;
+   newNode=new Node;
+   cout<<"\nEnter co-efficient:";
+   cin>>newNode->coeff;
+   cout<<"\nEnter exponent:";
+   cin>>newNode->expo;
+   newNode->next=NULL;
+   if(POLY==NULL)
+	{
+		POLY=newNode;
+	}
+   while(1)
+   {
+      cout<<"\nDo you want to add some more nodes?(y/n)";
+      cin>>choice;
+       if(choice=='n')
+        break;
+       else
+       {
+            nn=new Node;
+            cout<<"\nEnter co-efficient:";
+            cin>>nn->coeff;
+            cout<<"\nEnter exponent:";
+            cin>>nn->expo;
+            nn->next=NULL;
+            newNode->next=nn;
+       }
+       newNode=nn;
+   }
+}
+void Poly::displayPoly()
+{
+
+    Node *t;
+	t=POLY;
+	if(t==NULL)
+		cout<<"\nEMPTY POLYNOMIAL";
+	else
+	{
+	    while(t!=NULL)
+        {
+            cout<<t->coeff<<"x^"<<t->expo;
+             if(t->next!=NULL)
+                cout<<"+";
+            t=t->next;
+        }
+	}
+}
+void Poly::addPoly(Poly &P1,Poly &P2)
+{
+    Node *t1=P1.POLY;
+    Node *t2=P2.POLY;
+    Node *t3;;
+    while(t1!=NULL && t2!=NULL)
+    {
+        if ( POLY == NULL )
+		{
+			POLY= new Node;
+			t3=POLY;
+		}
+		else
+		{
+			t3->next=new Node;
+			t3=t3->next;
+		}
+        if(t1->expo>t2->expo)
+        {
+            t3 -> coeff = t1 -> coeff ;
+			t3 -> expo = t1 -> expo ;
+			t1 = t1->next;
+
+        }
+        else if(t2->expo>t1->expo)
+        {
+            t3 -> coeff = t2 -> coeff ;
+			t3 -> expo = t2 -> expo ;
+			t2 = t2->next;
+        }
+        else
+            {
+                t3->coeff=t1->coeff+t2->coeff;
+                t3->expo=t1->expo;
+                t1=t1->next;
+                t2=t2->next;
+            }
+    }
+     while(t1!=NULL)
+     {
+         if ( POLY == NULL )
+		{
+			POLY= new Node;
+			t3=POLY;
+		}
+		else
+		{
+			t3->next=new Node;
+			t3=t3->next;
+		}
+          t3->coeff=t1->coeff;
+          t3->expo=t1->expo;
+          t1=t1->next;
+    }
+
+
+     while(t2!=NULL)
+     {
+        if ( POLY == NULL )
+		{
+			POLY= new Node;
+			t3=POLY;
+		}
+		else
+		{
+			t3->next=new Node;
+			t3=t3->next;
+		}
+          t3->coeff=t2->coeff;
+          t3->expo=t2->expo;
+          t2=t2->next;
+     }
+     t3->next=NULL;
+}
+int main()
+{
+
+	Poly P1,P2,P3;
+	cout<<"\nEnter first Polynomial:";
+	P1.createPoly();
+	cout<<"\nEnter second Polynomial:";
+	P2.createPoly();
+	cout<<"\nPolynomial 1:";
+	P1.displayPoly();
+	cout<<"\nPolynomial 2:";
+	P2.displayPoly();
+	P3.addPoly(P1,P2);
+	cout<<"\nResultant Polynomial:";
+	P3.displayPoly();
+}

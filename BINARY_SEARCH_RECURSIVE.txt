@@ -1,0 +1,87 @@
+#include<iostream>
+using namespace std;
+class List
+{
+	int a[10];
+	int maxSize;
+
+	public:
+    	int size;
+	List()
+	{
+		maxSize=10;
+		size=0;
+	}
+	void getList();
+	void printList();
+	int binarySearch(int,int,int);
+};
+void List::getList()
+{
+	int n;
+	cout<<"\nEnter n:";
+	cin>>n;
+	if(n>maxSize)
+	{
+		cout<<"\nMax size="<<maxSize;
+		exit(0);
+	}
+	else
+	{
+		cout<<"\nEnter array elements in sorted order:";
+		int i;
+		for(i=0;i<n;i++)
+			cin>>a[i];
+		size=n;
+	}
+}
+void List::printList()
+{
+	for(int i=0;i<size;i++)
+		cout<<a[i]<<" ";
+}
+int List::binarySearch(int key,int l,int h)
+{
+	int low,high,mid,pos;
+	low=l;
+	high=h;
+	if(low<=high)
+	{
+		mid=(low+high)/2;
+		if(key==a[mid])
+		{
+			pos=mid;
+			return(pos);
+		}
+		else if(key<a[mid])
+        	{
+            		high=mid-1;
+            		return (binarySearch(key,low,high));
+        	}
+		else
+		{
+			low=mid+1;
+			return (binarySearch(key,low,high));
+		}
+	}
+	else
+    	{
+       	 	return(-1);
+    	}
+
+}
+int main()
+{
+	List l;
+	l.getList();
+	cout<<"\nArray Elements are:";
+	l.printList();
+	int key,pos;
+	cout<<"\nEnter the element to be searched:";
+	cin>>key;
+	pos=l.binarySearch(key,0,l.size-1);
+	if(pos>=0)
+		cout<<"\nTarget element "<<key<<" if found in pos "<<(pos+1);
+	else
+		cout<<"\nTarget element "<<key<<" not found";
+}

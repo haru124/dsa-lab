@@ -1,0 +1,56 @@
+#include <iostream>
+using namespace std;
+
+int min(int a, int b)
+{
+    return(a<b?a:b);
+}
+int binarySearch(int arr[], int low, int high, int key) {
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+        if (arr[mid] == key)
+            return mid;
+        else if (arr[mid] < key)
+            low = mid + 1;
+        else
+            high = mid - 1;
+    }
+    return -1;
+}
+
+int exponentialSearch(int arr[], int n, int key) {
+    if (arr[0] == key)
+        return 0;
+
+    int i = 1;
+    while (i < n && arr[i] <= key)
+        i *= 2;
+
+    return binarySearch(arr, i / 2, std::min(i, n - 1), key); // Use std::min from the <algorithm> header
+}
+
+int main() {
+    int n;
+    //cout << "Enter the number of elements: ";
+    cin >> n;
+
+    int arr[n+1];
+    //cout << "Enter the elements in sorted order: ";
+    for (int i = 0; i <= n; i++) {
+        cin >> arr[i];
+    }
+
+    int key;
+    //cout << "Enter the key element to search: ";
+    cin >> key;
+
+    int position = exponentialSearch(arr, n+1, key);
+
+    if (position != -1) {
+        cout << "Element " << key << " found in position " << position << endl;
+    } else {
+        cout << "Key not found" << endl;
+    }
+
+    return 0;
+}

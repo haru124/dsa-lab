@@ -1,0 +1,101 @@
+#include<iostream>
+using namespace std;
+#define MAXSIZE 4
+class CIRQUEUE
+{
+	int queue[MAXSIZE];
+	int front;
+	int rear;
+	public:
+	CIRQUEUE()
+	{
+		front=-1;
+		rear=-1;
+	}
+	void enque(int);
+	void deque();
+	void display();
+
+};
+void CIRQUEUE::enque(int data)
+{
+	if(front==-1 && rear==-1)
+	{
+		front=front+1;
+		rear=rear+1;
+		queue[rear]=data;
+	}
+	else if(front!=(rear+1)%MAXSIZE)
+	{
+		rear=(rear+1)%MAXSIZE;
+		queue[rear]=data;
+	}
+	else
+		cout<<"\nQueue Full";
+}
+void  CIRQUEUE::deque()
+{
+	if(front==-1)
+		cout<<"\nEmpty Queue";
+	else
+	{
+		cout<<"\nDeleted data:"<<queue[front];
+		front=(front+1)%MAXSIZE;
+	}
+}
+void CIRQUEUE::display()
+{
+	int i;
+	if(front==-1 && rear==-1)
+		cout<<"\nQueue empty";
+	else
+	{
+		if(front<rear)
+		{
+			for(i=front;i<=rear;i++)
+				cout<<queue[i]<<" ";
+		}
+		else
+		{
+			for(i=0;i<=rear;i++)
+				cout<<queue[i]<<" ";
+			for(i=front;i<=MAXSIZE-1;i++)
+				cout<<queue[i]<<" ";
+		}
+	}
+
+}
+
+int main()
+{
+
+	CIRQUEUE q;
+	char c;
+	do
+	{
+		cout<<"\n1.Enque";
+		cout<<"\n2.Deque";
+		cout<<"\n3.Display";
+		int ch;
+		cout<<"\nEnter your choice:";
+		cin>>ch;
+		switch(ch)
+		{
+			case 1:cout<<"\nEnter the data to be inserted:";
+				int data;
+				cin>>data;
+				q.enque(data);
+				break;
+			case 2:q.deque();
+				break;
+			case 3:cout<<"\nQueue elements are:\n";
+				q.display();
+				break;
+
+			default:cout<<"\nWrong choice";
+		}
+		cout<<"\nDo you want to continue?(y/n)";
+		cin>>c;
+	}while(c=='y');
+}
+

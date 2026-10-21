@@ -1,0 +1,88 @@
+#include<iostream>
+using namespace std;
+class List
+{
+	int a[10];
+	int maxSize;
+	public:
+	int size;
+	List()
+	{
+		maxSize=10;
+		size=0;
+	}
+	void getList();
+	void printList();
+	int Partition(int,int);
+	void QuickSort(int,int);
+	void swap(int &,int &);
+
+};
+void List::getList()
+{
+	int n;
+	cout<<"\nEnter n:";
+	cin>>n;
+	if(n>maxSize)
+	{
+		cout<<"\nMax size="<<maxSize;
+		exit(0);
+	}
+	else
+	{
+		cout<<"\nEnter array elements :";
+		int i;
+		for(i=0;i<n;i++)
+			cin>>a[i];
+		size=n;
+	}
+}
+void List::printList()
+{
+	for(int i=0;i<size;i++)
+		cout<<a[i]<<" ";
+}
+void List::QuickSort(int low,int high)
+{
+	if(low<high)
+	{
+		int pIndex=Partition(low,high);
+		QuickSort(low,pIndex-1);
+		QuickSort(pIndex+1,high);
+	}
+}
+int List::Partition(int low,int high)
+{
+	int i,j,pivot;
+	pivot=a[high];
+	j=low;
+	i=low-1;
+	while(j<high)
+    {
+        if(a[j]<=pivot)
+        {
+            i=i+1;
+            swap(a[i],a[j]);
+        }
+		j++;
+	}
+	swap(a[i+1],a[high]);
+	return(i+1);
+}
+void List::swap(int &x,int &y)
+{
+	int t;
+	t=x;
+	x=y;
+	y=t;
+}
+int main()
+{
+	List l;
+	l.getList();
+	cout<<"\nArray Elements are:";
+	l.printList();
+	l.QuickSort(0,l.size-1);
+	cout<<"\nAfter Sorting:\n";
+	l.printList();
+}

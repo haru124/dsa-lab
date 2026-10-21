@@ -1,0 +1,68 @@
+Strongly Connected Components – Directed Graph (Kosaraju’s Algorithm)
+
+In directed graphs, connected components are SCCs, i.e., every node can reach every other node.
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void dfs1(int node, vector<vector<int>>& adj, vector<bool>& visited, stack<int>& st) {
+    visited[node] = true;
+    for (int neigh : adj[node]) {
+        if (!visited[neigh]) dfs1(neigh, adj, visited, st);
+    }
+    st.push(node);
+}
+
+void dfs2(int node, vector<vector<int>>& adjT, vector<bool>& visited, vector<int>& component) {
+    visited[node] = true;
+    component.push_back(node);
+    for (int neigh : adjT[node]) {
+        if (!visited[neigh]) dfs2(neigh, adjT, visited, component);
+    }
+}
+
+vector<vector<int>> stronglyConnectedComponents(int n, vector<vector<int>>& adj) {
+    vector<bool> visited(n, false);
+    stack<int> st;
+
+    // Step 1: fill order
+    for (int i = 0; i < n; i++)
+        if (!visited[i]) dfs1(i, adj, visited, st);
+
+    // Step 2: transpose graph
+    vector<vector<int>> adjT(n);
+    for (int u = 0; u < n; u++)
+        for (int v : adj[u])
+            adjT[v].push_back(u);
+
+    // Step 3: DFS on transposed graph
+    fill(visited.begin(), visited.end(), false);
+    vector<vector<int>> components;
+
+    while (!st.empty()) {
+        int node = st.top(); st.pop();
+        if (!visited[node]) {
+            vector<int> component;
+            dfs2(node, adjT, visited, component);
+            components.push_back(component);
+        }
+    }
+    return components;
+}
+
+int main() {
+    int n = 5;
+    vector<vector<int>> adj = {
+        {1},
+        {2},
+        {0},
+        {4},
+        {}
+    };
+
+    auto sccs = stronglyConnectedComponents(n, adj);
+    for (auto &c : sccs) {
+        for (int node : c) cout << node << " ";
+        cout << endl;
+    }
+}
